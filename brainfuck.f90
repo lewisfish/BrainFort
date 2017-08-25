@@ -8,7 +8,7 @@ program brainfuckintrp
     implicit none
     
     character(len=8), parameter   :: chars = '+-<>[],.'!brainfuck character set
-    character(len=256)            :: arg
+    character(len=256)            :: arg, line
     character(len=:), allocatable :: string, filename
     character(len=1)              :: code
 
@@ -48,13 +48,16 @@ program brainfuckintrp
         stop 'No such file'
     end if
 
-    inquire(file=filename, size=filesize)
-    allocate(character(len=filesize) :: string)!read file into string. caveat that file has to be on one line...
-    read(u,'(A)',iostat=io)string
-    close(u)
-
     iptr = 1
     dptr = 0
+    
+    do!read in file
+        read(u,'(A)',iostat=io)line
+        if(io /= 0)exit
+        string = string//trim(adjustl(line))
+    end do
+    
+    close(u)
 
     do
         if(iptr == len(string) + 1)exit
@@ -97,7 +100,7 @@ program brainfuckintrp
         end if  
 
         if(code == ',')then
-            print*,'enter:',code
+            write(stdout,'(A)',advance='no') '$:'
             read(*,*)io
             array(dptr) = array(dptr) + io
             iptr = iptr + 1
