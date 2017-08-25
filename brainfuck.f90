@@ -14,10 +14,8 @@ program brainfuckintrp
 
     type(stack_var) :: braket
                !30000 due to original specification
-    integer :: array(0:30000), iptr, io, u, dptr, filesize, i
-
+    integer :: iptr, io, u, dptr, i, array(0:30000)
     logical :: debug
-
 
     debug = .false.
     io = command_argument_count()
@@ -29,7 +27,7 @@ program brainfuckintrp
         stop
     end if
 
-    if(io == 2)debug=.true.
+    if(io == 2)debug = .true.
 
     do i = 1, io !get cmd line arguments
 
@@ -113,10 +111,10 @@ program brainfuckintrp
                 continue
             else
                 !jump
+                if(debug)print*,'jumping'
                 call braket%push(iptr)
                 call find_braket(string, iptr, io)
                 iptr = io
-                iptr = iptr + scan(string(iptr:), ']')-1
             end if
         end if
 
@@ -127,6 +125,7 @@ program brainfuckintrp
                 continue
             else
                 !jump
+                if(debug)print*,'jumping'
                 iptr = braket%pop()
             end if
         end if
