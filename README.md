@@ -16,5 +16,5 @@ Included files:
 
 TODO:
     
-  * fix small bugs that don't allow hellhello.bf to run correctly
-  * Allow multi-line .bf files
+  - [ ] fix small bugs that don't allow hellhello.bf to run correctly
+  - [x] Allow multi-line .bf files
